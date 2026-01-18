@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Building2, MessageSquare, Users, Settings, LogOut, LayoutPanelLeft } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const navItems = [
      { icon: LayoutPanelLeft, label: 'Dashboard', path: '/admin' },
      { icon: Building2, label: 'Propiedades', path: '/admin/properties' },
@@ -14,7 +14,19 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-100 min-h-screen flex flex-col fixed left-0 top-0 z-50 shadow-sm">
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      <aside className={cn(
+        "w-64 bg-white border-r border-gray-100 min-h-screen flex flex-col fixed left-0 top-0 z-50 shadow-sm transition-transform duration-300 ease-in-out lg:translate-x-0",
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
       <div className="p-6">
         <h2 className="text-2xl font-bold text-gray-800 tracking-tight">
           INMO<span className="text-primary">ADMIN</span>
@@ -49,6 +61,7 @@ const Sidebar = () => {
         </button>
       </div>
     </aside>
+    </>
   );
 };
 
